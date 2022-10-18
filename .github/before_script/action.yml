@@ -1,0 +1,18 @@
+name: 'before_script'
+description: 'Sets up bundler environment for all jobs'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - name: Prepare environment
+      run: |
+        bundle -v
+        rm Gemfile.lock || true
+        "# Update system gems if requested. This is useful to temporarily workaround troubles in the test runner"
+        "# Set `rubygems_version` in the .sync.yml to set a value"
+        "# Ignore exit code of SIGPIPE'd yes to not fail with shell's pipefail set"
+        '[ -z "$RUBYGEMS_VERSION" ] || (yes || true) | gem update --system $RUBYGEMS_VERSION'
+        gem --version
+        bundle -v
+        bundle install --without system_tests --path vendor/bundle --jobs $(nproc)
+      shell: bash
