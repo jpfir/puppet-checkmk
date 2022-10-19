@@ -1,113 +1,47 @@
 # checkmk
 
-Welcome to your new module. A short overview of the generated parts can be found
-in the [PDK documentation][1].
-
-The README template below provides a starting point with details about what
-information to include in your README.
-
-## Table of Contents
-
-1. [Description](#description)
-1. [Setup - The basics of getting started with checkmk](#setup)
-    * [What checkmk affects](#what-checkmk-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with checkmk](#beginning-with-checkmk)
-1. [Usage - Configuration options and additional functionality](#usage)
-1. [Limitations - OS compatibility, etc.](#limitations)
-1. [Development - Guide for contributing to the module](#development)
-
 ## Description
 
-Manage [CheckMK](https://checkmk.com/) server and client configuration.
-
-## Setup
-
-### What checkmk affects **OPTIONAL**
-
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
-
-If there's more that they should know about, though, this is the place to
-mention:
-
-* Files, packages, services, or operations that the module will alter, impact,
-  or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-another module, etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section here.
-
-### Beginning with checkmk
-
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most basic
-use of the module.
+Provision [CheckMK](https://checkmk.com/) server and client.
 
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your
-users how to use your module to solve problems, and be sure to include code
-examples. Include three to five examples of the most important or common tasks a
-user can accomplish with your module. Show users how to accomplish more complex
-tasks that involve different types, classes, and functions working in tandem.
-
-## Reference
-
-This section is deprecated. Instead, add reference information to your code as
-Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your
-module. For details on how to add code comments and generate documentation with
-Strings, see the [Puppet Strings documentation][2] and [style guide][3].
-
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the
-root of your module directory and list out each of your module's classes,
-defined types, facts, functions, Puppet tasks, task plans, and resource types
-and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-* The data type, if applicable.
-* A description of what the element does.
-* Valid values, if the data type doesn't make it obvious.
-* Default value, if any.
-
-For example:
-
+To set up a CheckMK server:
+```puppet
+class { '::checkmk':
+  mode                     => 'server',
+  download_url             => 'https://download.checkmk.com/checkmk/2.1.0p14/check-mk-raw-2.1.0p14_0.jammy_amd64.deb', # Where to download the CheckMK server package from
+  sha256_hash              => '8804c0291e897f6185b147613a5fc86d61c0bcf73eaac5b11d90afe58af10c9f', # SHA256 hash of the downloaded package
+  automation_user_password => '', # Password for the `automation` user, this can be configured after the server has been started
+}
 ```
-### `pet::cat`
+This will provision a CheckMK server with default configuration. This can be accessed from: `http://<server-ip>/default`.
+To login, the `cmkadmin` user password must be set by running `htpasswd /omd/sites/default/etc/htpasswd cmkadmin <password>` on the server.
+Once logged in the `automation` user password can be set by going to `Setup` -> `Users` -> `Users` -> `automation` -> `Automation secret for machine accounts`.
 
-#### Parameters
+To set up a CheckMK agent:
+```puppet
+class { '::checkmk':
+  mode                    => 'agent',
+  agent_download_protocol => 'http', # The protocol that should be used when talking to the CheckMK server
+  agent_download_host     => 'checkmk.example.com', # The hostname or IP address of the CheckMK server
+}
+```
 
-##### `meow`
-
-Enables vocalization in your cat. Valid options: 'string'.
-
-Default: 'medium-loud'.
+All configurations can be set using Hiera.
+```yaml
+---
+checkmk::mode: 'server'
+checkmk::download_url: 'https://download.checkmk.com/checkmk/2.1.0p14/check-mk-raw-2.1.0p14_0.jammy_amd64.deb'
+checkmk::sha256_hash: '8804c0291e897f6185b147613a5fc86d61c0bcf73eaac5b11d90afe58af10c9f'
+checkmk::automation_user_password: ''
 ```
 
 ## Limitations
 
-In the Limitations section, list any incompatibilities, known issues, or other
-warnings.
+Currently only tested and supported Debian based systems.
 
 ## Development
 
-In the Development section, tell other users the ground rules for contributing
-to your project and how they should submit their work.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel are
-necessary or important to include here. Please use the `##` header.
-
-[1]: https://puppet.com/docs/pdk/latest/pdk_generating_modules.html
-[2]: https://puppet.com/docs/puppet/latest/puppet_strings.html
-[3]: https://puppet.com/docs/puppet/latest/puppet_strings_style.html
+To contribute to this module, please fork the repository and submit a pull request.
+All commits should be squashed into a single commit and the commit message should follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.

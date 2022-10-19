@@ -14,7 +14,7 @@ class checkmk::install::agent {
       class { 'checkmk::install::agent::create_host': }
 
       exec { 'register checkmk agent':
-        command => "/usr/bin/cmk-agent-ctl register --hostname ${trusted['certname']} --server ${checkmk::agent_download_host} --site ${checkmk::site_name} --user automation --password ${checkmk::automation_user_password} --trust-cert",
+        command => "/usr/bin/cmk-agent-ctl register --hostname ${checkmk::hostname} --server ${checkmk::agent_download_host} --site ${checkmk::site_name} --user automation --password ${checkmk::automation_user_password} --trust-cert",
         require => [Package['check-mk-agent'], Class['checkmk::install::agent::create_host']],
         onlyif  => "/usr/bin/cmk-agent-ctl status --json | grep -q '\"connections\":\\[\\]'",
       }

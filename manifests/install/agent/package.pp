@@ -2,7 +2,7 @@
 class checkmk::install::agent::package {
   $package_downloaded = Deferred('checkmk::get_agent_package',
     [
-      "${checkmk::agent_download_prefix}://${checkmk::agent_download_host}",
+      "${checkmk::agent_download_protocol}://${checkmk::agent_download_host}",
       $checkmk::automation_user_password,
       $checkmk::site_name,
       'linux_deb',

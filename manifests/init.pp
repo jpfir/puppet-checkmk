@@ -21,7 +21,7 @@
 # @param [String] sha256_hash The SHA256 hash of the CheckMK server package
 # @param [String] mode Install mode for either 'server' or 'agent'
 # @param [String] site_name The site name for the CheckMK server
-# @param [String] agent_download_prefix Either 'http' or 'https' for the server URL
+# @param [String] agent_download_protocol Either 'http' or 'https' for the server URL
 # @param [String] agent_download_host The hostname to download the agent package from
 # @param [String] automation_user_password The password for the "automation" user
 #   The bearer token can be created by setting the "automation secret for machine accounts" for the "automation" user under:
@@ -34,7 +34,7 @@ class checkmk (
   String $sha256_hash,
   String $mode,
   String $site_name,
-  String $agent_download_prefix,
+  String $agent_download_protocol,
   String $agent_download_host,
   String $automation_user_password,
   String $agent_folder,

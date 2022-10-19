@@ -40,7 +40,7 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
       file.close
 
       'cmk-agent-ctl has been downloaded'
-    rescue Errno::ECONNREFUSED => e
+    rescue Errno::ECONNREFUSED, Net::ReadTimeout => e
       # Warn here as the server may not be configured yet
       call_function('warning', "Failed to connect: #{e}")
       file.close unless defined?(file).nil?

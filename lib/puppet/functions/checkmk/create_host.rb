@@ -47,6 +47,6 @@ Puppet::Functions.create_function(:'checkmk::create_host') do
     response = Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(request)
     end
-    response.code == '200' ? true : false
+    response.code == '200'
   end
 end

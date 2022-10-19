@@ -2,7 +2,7 @@
 class checkmk::install::agent::create_host {
   $host_created = Deferred('checkmk::create_host',
     [
-      "${checkmk::agent_download_prefix}://${checkmk::agent_download_host}",
+      "${checkmk::agent_download_protocol}://${checkmk::agent_download_host}",
       $checkmk::automation_user_password,
       $checkmk::site_name,
       $checkmk::agent_folder,
