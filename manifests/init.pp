@@ -16,6 +16,7 @@
 #     agent_download_bearer_token => '1234567890',
 #   }
 #
+# @param [String] version The version of CheckMK server to install
 # @param [String] download_url The URL to download the CheckMK server from
 # @param [String] sha256_hash The SHA256 hash of the CheckMK server package
 # @param [String] mode Install mode for either 'server' or 'agent'
@@ -28,6 +29,7 @@
 # @param [String] agent_folder The folder in CheckMK Hosts to create the host in
 # @param [String] hostname The hostname for the CheckMK agent
 class checkmk (
+  String $version,
   String $download_url,
   String $sha256_hash,
   String $mode,

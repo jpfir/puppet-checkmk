@@ -9,7 +9,7 @@ class checkmk::install::server {
         checksum_value => $checkmk::sha256_hash,
       }
 
-      package { 'check-mk-raw':
+      package { "check-mk-raw-${checkmk::version}":
         ensure   => installed,
         provider => 'apt',
         source   => '/tmp/check-mk-raw.deb',
@@ -20,7 +20,7 @@ class checkmk::install::server {
       exec { "create omd site ${checkmk::site_name}":
         command => "/usr/bin/omd create ${checkmk::site_name}",
         creates => "/opt/omd/sites/${checkmk::site_name}",
-        require => Package['check-mk-raw'],
+        require => Package["check-mk-raw-${checkmk::version}"],
       }
 
       exec { "start odm site ${checkmk::site_name}":

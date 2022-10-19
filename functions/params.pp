@@ -13,11 +13,13 @@ function checkmk::params(Hash $options, Puppet::LookupContext $context) {
   $os_params = case $facts['os']['family'] {
     'Debian': {
       {
+        'checkmk::version'      => '2.1.0p14',
         'checkmk::download_url' => "https://download.checkmk.com/checkmk/2.1.0p14/check-mk-raw-2.1.0p14_0.${facts['os']['codename']}_amd64.deb"
       }
     }
     default: {
       {
+        'checkmk::version'      => '2.1.0p14',
         'checkmk::download_url' => "https://download.checkmk.com/checkmk/2.1.0p14/check-mk-raw-2.1.0p14_0.${facts['os']['codename']}_amd64.deb"
       }
     }
