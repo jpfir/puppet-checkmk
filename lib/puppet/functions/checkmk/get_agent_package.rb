@@ -12,7 +12,7 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
   end
 
   def get_agent_package(url, bearer_token, site_name, os_type, file_name)
-    return false unless version_different?(url, bearer_token, site_name, os_type)
+    return true unless version_different?(url, bearer_token, site_name, os_type)
 
     uri = URI("#{url}/#{site_name}/check_mk/api/1.0/domain-types/agent/actions/download/invoke")
     params = { os_type: os_type }
