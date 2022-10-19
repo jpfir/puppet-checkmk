@@ -2,12 +2,12 @@
   "name": "zaben-checkmk",
   "version": "0.1.0",
   "author": "Zach Bensley",
-  "summary": "",
+  "summary": "Provision CheckMK server and client",
   "license": "MIT",
-  "source": "",
-  "dependencies": [
-
-  ],
+  "source": "https://github.com/zaben903/puppet-checkmk",
+  "project_page": "https://github.com/zaben903/puppet-checkmk",
+  "issues_url": "https://github.com/zaben903/puppet-checkmk/issues",
+  "dependencies": [],
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
@@ -30,6 +30,10 @@
       "name": "puppet",
       "version_requirement": ">= 6.21.0 < 8.0.0"
     }
+  ],
+  "tags": [
+    "checkmk",
+    "monitoring"
   ],
   "pdk-version": "2.5.0",
   "template-url": "pdk-default#2.5.0",
