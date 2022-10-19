@@ -53,7 +53,7 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
   # If cmk-agent-ctl is not found, it will return true
   def version_different?(url, bearer_token, site_name, os_type)
     call_function('debug', 'checking if cmk-agent-ctl is installed')
-    if system('/usr/bin/cmk-agent-ctl --version')
+    if system('/usr/bin/cmk-agent-ctl --version > /dev/null 2>&1')
       current_version = `/usr/bin/cmk-agent-ctl --version`
     else
       call_function('debug', 'cmk-agent-ctl is not installed')
