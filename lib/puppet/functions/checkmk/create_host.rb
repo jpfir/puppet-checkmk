@@ -9,11 +9,11 @@ Puppet::Functions.create_function(:'checkmk::create_host') do
     param 'String', :site_name
     param 'String', :folder
     param 'String', :host_name
-    return_type 'Boolean'
+    return_type 'String'
   end
 
   def create_host(url, bearer_token, site_name, folder, host_name)
-    return false if host_exists?(url, bearer_token, site_name, host_name)
+    return 'CheckMK host already exists' if host_exists?(url, bearer_token, site_name, host_name)
     call_function('debug', 'Checkmk host does not exist, creating')
 
     uri = URI("#{url}/#{site_name}/check_mk/api/1.0/domain-types/host_config/collections/all")
@@ -26,13 +26,12 @@ Puppet::Functions.create_function(:'checkmk::create_host') do
     Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(request)
     end
-    call_function('debug', 'Checkmk host has been created')
 
-    true
+    'CheckMK host has been created'
   rescue Errno::ECONNREFUSED => e
     # Warn here as the server may not be configured yet
     call_function('warning', "Failed to connect: #{e}")
-    false
+    'CheckMK host creation failed'
   end
 
   def host_exists?(url, bearer_token, site_name, host_name)

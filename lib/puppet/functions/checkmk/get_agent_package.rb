@@ -8,11 +8,11 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
     param 'String', :site_name
     param 'String', :os_type
     param 'String', :file_name
-    return_type 'Boolean'
+    return_type 'String'
   end
 
   def get_agent_package(url, bearer_token, site_name, os_type, file_name)
-    return true unless version_different?(url, bearer_token, site_name, os_type)
+    return 'cmk-agent-ctl version is the same' unless version_different?(url, bearer_token, site_name, os_type)
     call_function('debug', 'cmk-agent-ctl is a different version, downloading new package')
 
     uri = URI("#{url}/#{site_name}/check_mk/api/1.0/domain-types/agent/actions/download/invoke")
@@ -38,15 +38,14 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
         end
       end
       file.close
-      call_function('debug', 'cmk-agent-ctl has been downloaded')
 
-      true
+      'cmk-agent-ctl has been downloaded'
     rescue Errno::ECONNREFUSED => e
       # Warn here as the server may not be configured yet
       call_function('warning', "Failed to connect: #{e}")
       file.close unless defined?(file).nil?
 
-      false
+      'cmk-agent-ctl failed to downloaded'
     end
   end
 
