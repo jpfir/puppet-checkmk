@@ -25,14 +25,14 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
     begin
       Net::HTTP.start(uri.hostname, uri.port) do |http|
         http.request(request) do |response|
-          unless response.code == '200'
+          case response.code
+          when '200'
+            response.read_body do |segment|
+              file.write(segment)
+            end
+          else
             file.close
             call_function('fail', "Failed to download agent package: #{response}")
-            break
-          end
-
-          response.read_body do |segment|
-            file.write(segment)
           end
         end
       end
@@ -42,7 +42,7 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
     rescue Errno::ECONNREFUSED => e
       # Warn here as the server may not be configured yet
       call_function('warning', "Failed to connect: #{e}")
-      file.close
+      file.close unless defined?(file).nil?
 
       false
     end
