@@ -10,9 +10,7 @@ class checkmk::install::agent::package {
     ]
   )
 
-  if $package_downloaded {
-    notify { 'Checkmk agent downloaded':
-      message => 'The CheckMK Agent has been downloaded',
-    }
+  notify { 'Checkmk agent downloaded':
+    message => "The CheckMK Agent has been downloaded: ${package_downloaded}",
   }
 }

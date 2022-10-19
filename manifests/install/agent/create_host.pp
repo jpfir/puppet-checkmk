@@ -10,9 +10,7 @@ class checkmk::install::agent::create_host {
     ]
   )
 
-  if $host_created {
-    notify { 'Checkmk host created':
-      message => 'The CheckMK Agent has been downloaded',
-    }
+  notify { 'Checkmk host created':
+    message => "The CheckMK host has been created: ${host_created}",
   }
 }
