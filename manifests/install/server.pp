@@ -2,25 +2,25 @@
 class checkmk::install::server {
   case $facts['os']['family'] {
     'Debian': {
-      file { '/tmp/checkmk_server.deb':
+      file { '/tmp/check-mk-raw.deb':
         ensure         => file,
         source         => $checkmk::download_url,
         checksum       => 'sha256',
         checksum_value => $checkmk::sha256_hash,
       }
 
-      package { 'checkmk_server':
+      package { 'check-mk-raw':
         ensure   => installed,
         provider => 'apt',
-        source   => '/tmp/checkmk_server.deb',
-        require  => File['/tmp/checkmk_server.deb'],
+        source   => '/tmp/check-mk-raw.deb',
+        require  => File['/tmp/check-mk-raw.deb'],
       }
 
       # TODO: make sure a user configurable password is set
       exec { "create omd site ${checkmk::site_name}":
         command => "/usr/bin/omd create ${checkmk::site_name}",
         creates => "/opt/omd/sites/${checkmk::site_name}",
-        require => Package['checkmk_server'],
+        require => Package['check-mk-raw'],
       }
 
       exec { "start odm site ${checkmk::site_name}":

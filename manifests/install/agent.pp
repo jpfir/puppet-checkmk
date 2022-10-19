@@ -7,12 +7,12 @@ class checkmk::install::agent {
                                      $checkmk::automation_user_password,
                                      $checkmk::site_name,
                                      'linux_deb',
-                                     '/tmp/checkmk_agent.deb'])
+                                     '/tmp/check-mk-agent.deb'])
 
-      package { 'checkmk_agent':
+      package { 'check-mk-agent':
         ensure   => installed,
         provider => 'apt',
-        source   => '/tmp/checkmk_agent.deb',
+        source   => '/tmp/check-mk-agent.deb',
       }
 
       $create_host = Deferred('checkmk::create_host',
@@ -24,7 +24,7 @@ class checkmk::install::agent {
 
       exec { 'register checkmk agent':
         command => "/usr/bin/cmk-agent-ctl register --hostname ${trusted['certname']} --server ${checkmk::agent_download_host} --site ${checkmk::site_name} --user automation --password ${checkmk::automation_user_password} --trust-cert",
-        require => Package['checkmk_agent'],
+        require => Package['check-mk-agent'],
         onlyif  => "/usr/bin/cmk-agent-ctl status --json | grep -q '\"connections\":\\[\\]'",
       }
     }
