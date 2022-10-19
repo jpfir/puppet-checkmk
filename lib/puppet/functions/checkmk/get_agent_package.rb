@@ -13,6 +13,7 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
 
   def get_agent_package(url, bearer_token, site_name, os_type, file_name)
     return true unless version_different?(url, bearer_token, site_name, os_type)
+    call_function('debug', 'cmk-agent-ctl is a different version, downloading new package')
 
     uri = URI("#{url}/#{site_name}/check_mk/api/1.0/domain-types/agent/actions/download/invoke")
     params = { os_type: os_type }
@@ -37,6 +38,7 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
         end
       end
       file.close
+      call_function('debug', 'cmk-agent-ctl has been downloaded')
 
       true
     rescue Errno::ECONNREFUSED => e
@@ -51,8 +53,12 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
   # Checks if the current installed version is different to what can be requested
   # If cmk-agent-ctl is not found, it will return true
   def version_different?(url, bearer_token, site_name, os_type)
+    call_function('debug', 'checking if cmk-agent-ctl is installed')
     current_version = system('/usr/bin/cmk-agent-ctl --version')
-    return true unless current_version
+    unless current_version
+      call_function('debug', 'cmk-agent-ctl is not installed')
+      return true
+    end
 
     uri = URI("#{url}/#{site_name}/check_mk/api/1.0/domain-types/agent/actions/download/invoke")
     params = { os_type: os_type }
@@ -68,6 +74,6 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
       end
     end
 
-    file_name[%r{(#{current_version[%r{ (.*)\Z}, 1]})}, 1].nil? ? true : false
+    file_name[%r{(#{current_version[%r{ (.*)\Z}, 1]})}, 1].nil?
   end
 end

@@ -14,6 +14,7 @@ Puppet::Functions.create_function(:'checkmk::create_host') do
 
   def create_host(url, bearer_token, site_name, folder, host_name)
     return false if host_exists?(url, bearer_token, site_name, host_name)
+    call_function('debug', 'Checkmk host does not exist, creating')
 
     uri = URI("#{url}/#{site_name}/check_mk/api/1.0/domain-types/host_config/collections/all")
     request = Net::HTTP::Post.new(uri)
@@ -25,6 +26,7 @@ Puppet::Functions.create_function(:'checkmk::create_host') do
     Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(request)
     end
+    call_function('debug', 'Checkmk host has been created')
 
     true
   rescue Errno::ECONNREFUSED => e
@@ -34,6 +36,8 @@ Puppet::Functions.create_function(:'checkmk::create_host') do
   end
 
   def host_exists?(url, bearer_token, site_name, host_name)
+    call_function('debug', 'Checking if checkmk host exists')
+
     uri = URI("#{url}/#{site_name}/check_mk/api/1.0/objects/host_config/#{host_name}")
     params = { effective_attributes: false }
     uri.query = URI.encode_www_form(params)
