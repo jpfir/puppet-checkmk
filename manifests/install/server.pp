@@ -3,8 +3,6 @@ class checkmk::install::server {
   if $checkmk::cmkadmin_user_password == undef {
     fail("cmkadmin_user_password must be defined when `mode => 'server'` is used")
   }
-  $cmkadmin_user_password = Sensitive($checkmk::cmkadmin_user_password)
-  $automation_user_password = Sensitive($checkmk::automation_user_password)
 
   case $facts['os']['family'] {
     'Debian': {
@@ -36,13 +34,13 @@ class checkmk::install::server {
       }
 
       exec { 'checkmk_cmkadmin_password':
-        command     => "/usr/bin/htpasswd -b /opt/omd/sites/${checkmk::site_name}/etc/htpasswd cmkadmin ${cmkadmin_user_password}",
+        command     => "/usr/bin/htpasswd -b /opt/omd/sites/${checkmk::site_name}/etc/htpasswd cmkadmin ${checkmk::cmkadmin_user_password}",
         refreshonly => true,
         subscribe   => Exec["create omd site ${checkmk::site_name}"],
       }
 
       exec { 'checkmk_automation_password':
-        command     => "/usr/bin/htpasswd -b /opt/omd/sites/${checkmk::site_name}/etc/htpasswd automation ${automation_user_password}",
+        command     => "/usr/bin/htpasswd -b /opt/omd/sites/${checkmk::site_name}/etc/htpasswd automation ${checkmk::automation_user_password}",
         refreshonly => true,
         subscribe   => Exec["create omd site ${checkmk::site_name}"],
       }

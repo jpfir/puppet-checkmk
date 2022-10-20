@@ -9,8 +9,6 @@
 
 **Bugfixes**
 
-- Make sure cmkadmin and automation passwords are marked as `Sensitive` before using them.
-
 **Known Issues**
 
 - `--trust-cert` option is being used during the CheckMK registration process, this isn't an issue where the CheckMK server is using HTTPS as this is skipped ([werk #14715](https://checkmk.com/werk/14715)).
