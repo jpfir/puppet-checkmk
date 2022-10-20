@@ -70,7 +70,12 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
     file_name = ''
     Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(request) do |response|
-        file_name = response['content-disposition'][%r{filename="(.*)"\Z}, 1]
+        case response.code
+        when '200'
+          file_name = response['content-disposition'][%r{filename="(.*)"\Z}, 1]
+        else
+          raise Puppet::Error, "Failed to check agent package version: { type: #{response.class}, code: #{response.code}, body: #{response.body} }"
+        end
       end
     end
 
