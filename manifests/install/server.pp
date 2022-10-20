@@ -16,7 +16,7 @@ class checkmk::install::server {
 
       file { '/tmp/check-mk-raw.deb':
         ensure         => file,
-        source         => $checkmk::download_url,
+        source         => $download_url,
         checksum       => 'sha256',
         checksum_value => $checkmk::sha256_hash,
       }

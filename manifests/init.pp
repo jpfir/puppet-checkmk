@@ -26,8 +26,6 @@
 # @param [String] agent_download_protocol Either 'http' or 'https' for the server URL
 # @param [String] agent_download_host The hostname to download the agent package from
 # @param [String] automation_user_password The password for the "automation" user
-#   The bearer token can be created by setting the "automation secret for machine accounts" for the "automation" user under:
-#   Setup -> Users -> Users -> Edit user "automation"
 # @param [String] agent_folder The folder in CheckMK Hosts to create the host in
 # @param [String] hostname The hostname for the CheckMK agent
 class checkmk (
