@@ -33,7 +33,7 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
             end
           else
             file.close
-            call_function('fail', "Failed to download agent package: #{response}")
+            raise Puppet::ParseError, "Failed to download agent package: #{response}"
           end
         end
       end
