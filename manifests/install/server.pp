@@ -11,7 +11,7 @@ class checkmk::install::server {
       if $checkmk::download_url {
         $download_url = $checkmk::download_url
       } else {
-        $download_url = "https://download.checkmk.com/checkmk/${checkmk::version}/check-mk-raw-${checkmk::version}_0.${facts['os']['codename']}_amd64.deb"
+        $download_url = "https://download.checkmk.com/checkmk/${checkmk::version}/check-mk-raw-${checkmk::version}_0.${facts['os']['distro']['codename']}_amd64.deb"
       }
 
       file { '/tmp/check-mk-raw.deb':
