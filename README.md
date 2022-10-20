@@ -2,7 +2,7 @@
 
 ## Description
 
-Provision [CheckMK](https://checkmk.com/) server and client.
+Provisions the [CheckMK](https://checkmk.com/) server and client.
 
 ## Usage
 
@@ -10,14 +10,14 @@ To set up a CheckMK server:
 ```puppet
 class { '::checkmk':
   mode                     => 'server',
-  download_url             => 'https://download.checkmk.com/checkmk/2.1.0p14/check-mk-raw-2.1.0p14_0.jammy_amd64.deb', # Where to download the CheckMK server package from
-  sha256_hash              => '8804c0291e897f6185b147613a5fc86d61c0bcf73eaac5b11d90afe58af10c9f', # SHA256 hash of the downloaded package
-  automation_user_password => '', # Password for the `automation` user, this can be configured after the server has been started
+  version                  => '2.1.0p14',
+  sha256_hash              => '8804c0291e897f6185b147613a5fc86d61c0bcf73eaac5b11d90afe58af10c9f', # SHA256 hash of requested version, this can be found at: https://checkmk.com/download
+  cmkadmin_user_password   => 'changeme123', # Password for the `cmkadmin` user
+  automation_user_password => 'changeme456', # Password for the `automation` user
 }
 ```
 This will provision a CheckMK server with default configuration. This can be accessed from: `http://<server-ip>/default`.
-To login, the `cmkadmin` user password must be set by running `htpasswd /omd/sites/default/etc/htpasswd cmkadmin <password>` on the server.
-Once logged in the `automation` user password can be set by going to `Setup` -> `Users` -> `Users` -> `automation` -> `Automation secret for machine accounts`.
+To login, use the `cmkadmin` credentials.
 
 To set up a CheckMK agent:
 ```puppet
@@ -34,12 +34,14 @@ All configurations can be set using Hiera.
 checkmk::mode: 'server'
 checkmk::download_url: 'https://download.checkmk.com/checkmk/2.1.0p14/check-mk-raw-2.1.0p14_0.jammy_amd64.deb'
 checkmk::sha256_hash: '8804c0291e897f6185b147613a5fc86d61c0bcf73eaac5b11d90afe58af10c9f'
-checkmk::automation_user_password: ''
+checkmk::cmkadmin_user_password: 'changeme123'
+checkmk::automation_user_password: 'changeme456'
 ```
 
 ## Limitations
 
 Currently only tested and supported Debian based systems.
+Only the Raw version of CheckMK has been tested but this module may work with the paid server versions.
 
 ## Development
 

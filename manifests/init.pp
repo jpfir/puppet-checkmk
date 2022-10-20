@@ -17,10 +17,12 @@
 #   }
 #
 # @param [String] version The version of CheckMK server to install
-# @param [String] download_url The URL to download the CheckMK server from
+# @param [Optional[String]] download_url The URL to download the CheckMK server from
+#   The default URL is derived from the version defined and the host codename
 # @param [String] sha256_hash The SHA256 hash of the CheckMK server package
 # @param [String] mode Install mode for either 'server' or 'agent'
 # @param [String] site_name The site name for the CheckMK server
+# @param [Optional[String]] cmkadmin_user_password The password for the "cmkadmin" user, required when using mode => 'server'
 # @param [String] agent_download_protocol Either 'http' or 'https' for the server URL
 # @param [String] agent_download_host The hostname to download the agent package from
 # @param [String] automation_user_password The password for the "automation" user
@@ -30,10 +32,11 @@
 # @param [String] hostname The hostname for the CheckMK agent
 class checkmk (
   String $version,
-  String $download_url,
+  Optional[String] $download_url,
   String $sha256_hash,
   String $mode,
   String $site_name,
+  Optional[String] $cmkadmin_user_password,
   String $agent_download_protocol,
   String $agent_download_host,
   String $automation_user_password,
