@@ -39,10 +39,9 @@ class checkmk::install::server {
         subscribe   => Exec["create omd site ${checkmk::site_name}"],
       }
 
-      exec { 'checkmk_automation_password':
-        command     => "/usr/bin/htpasswd -b /opt/omd/sites/${checkmk::site_name}/etc/htpasswd automation ${checkmk::automation_user_password}",
-        refreshonly => true,
-        subscribe   => Exec["create omd site ${checkmk::site_name}"],
+      file { "/opt/omd/sites/${checkmk::site_name}/var/check_mk/web/automation/automation.secret":
+        ensure  => file,
+        content => inline_epp('<%= $automation_user_password %>', { 'automation_user_password' => Sensitive.new($checkmk::automation_user_password) }),
       }
 
       exec { "start odm site ${checkmk::site_name}":
