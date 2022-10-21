@@ -36,12 +36,14 @@ class checkmk::install::server {
       exec { 'checkmk_cmkadmin_password':
         command     => "/usr/bin/htpasswd -b /opt/omd/sites/${checkmk::site_name}/etc/htpasswd cmkadmin ${checkmk::cmkadmin_user_password}",
         refreshonly => true,
+        require     => Exec["create omd site ${checkmk::site_name}"],
         subscribe   => Exec["create omd site ${checkmk::site_name}"],
       }
 
       file { "/opt/omd/sites/${checkmk::site_name}/var/check_mk/web/automation/automation.secret":
         ensure  => file,
         content => inline_epp('<%= $automation_user_password %>', { 'automation_user_password' => Sensitive.new($checkmk::automation_user_password) }),
+        require => Exec["create omd site ${checkmk::site_name}"],
       }
 
       exec { "start odm site ${checkmk::site_name}":

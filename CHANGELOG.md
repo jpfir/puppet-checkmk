@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.2.1
+
+**Bugfixes**
+
+- Fixes and occasional issue where passwords were attempting to be set before the site is created.
+
 ## Release 0.2.0
 
 **Features**
