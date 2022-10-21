@@ -41,6 +41,10 @@ class checkmk (
   String $agent_folder,
   String $hostname,
 ) {
+  unless $site_name =~ /^[a-z_]([a-z0-9_-]{0,31}|[a-z0-9_-]{0,30}\$)$/ {
+    fail('site_name must be a valid CheckMK site name')
+  }
+
   case $mode {
     'server': {
       class { 'checkmk::install::server': }

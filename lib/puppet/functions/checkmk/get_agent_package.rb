@@ -31,6 +31,8 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
             response.read_body do |segment|
               file.write(segment)
             end
+          when '404'
+            call_function('warning', '404 Error: Agent package not found')
           else
             file.close
             raise Puppet::Error, "Failed to download agent package: { type: #{response.class}, code: #{response.code}, body: #{response.body} }"
@@ -73,6 +75,8 @@ Puppet::Functions.create_function(:'checkmk::get_agent_package') do
         case response.code
         when '200'
           file_name = response['content-disposition'][%r{filename="(.*)"\Z}, 1]
+        when '404'
+          call_function('warning', '404 Error: Agent package not found')
         else
           raise Puppet::Error, "Failed to check agent package version: { type: #{response.class}, code: #{response.code}, body: #{response.body} }"
         end

@@ -24,7 +24,16 @@ Puppet::Functions.create_function(:'checkmk::create_host') do
     request.body = { folder: folder, host_name: host_name }.to_json
 
     Net::HTTP.start(uri.hostname, uri.port) do |http|
-      http.request(request)
+      http.request(request) do |response|
+        case response.code
+        when '200'
+          true
+        when '404'
+          call_function('warning', '404 Error: Unable to add host, is the server configured?')
+        else
+          raise Puppet::Error, "Failed to add host: { type: #{response.class}, code: #{response.code}, body: #{response.body} }"
+        end
+      end
     end
 
     'CheckMK host has been created'
