@@ -26,7 +26,6 @@ class checkmk::install::server {
         require  => File['/tmp/check-mk-raw.deb'],
       }
 
-      # TODO: make sure a user configurable password is set
       exec { "create omd site ${checkmk::site_name}":
         command => "/usr/bin/omd create ${checkmk::site_name}",
         creates => "/opt/omd/sites/${checkmk::site_name}",
@@ -42,7 +41,7 @@ class checkmk::install::server {
 
       file { "/opt/omd/sites/${checkmk::site_name}/var/check_mk/web/automation/automation.secret":
         ensure  => file,
-        content => inline_epp('<%= $automation_user_password %>', { 'automation_user_password' => Sensitive.new($checkmk::automation_user_password) }),
+        content => inline_epp('<%= $automation_user_password %>', { 'automation_user_password' => $checkmk::automation_user_password }), # Sensitive.new($checkmk::automation_user_password)
         require => Exec["create omd site ${checkmk::site_name}"],
       }
 

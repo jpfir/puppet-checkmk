@@ -7,7 +7,12 @@
   "source": "https://github.com/zaben903/puppet-checkmk",
   "project_page": "https://github.com/zaben903/puppet-checkmk",
   "issues_url": "https://github.com/zaben903/puppet-checkmk/issues",
-  "dependencies": [],
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 7.0.0"
+    }
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",

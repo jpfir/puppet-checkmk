@@ -47,3 +47,12 @@ Only the Raw version of CheckMK has been tested but this module may work with th
 
 To contribute to this module, please fork the repository and submit a pull request.
 All commits should be squashed into a single commit and the commit message should follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
+
+### Testing
+
+Run the following commands to test the module in your local environment:
+```bash
+bundle install
+bundle exec rake spec
+bundle exex rake beaker
+```

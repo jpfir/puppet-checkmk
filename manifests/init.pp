@@ -35,6 +35,7 @@ class checkmk (
   String $mode,
   String $site_name,
   Optional[String] $cmkadmin_user_password,
+  Enum[latest, present, absent] $agent_package_ensure,
   String $agent_download_protocol,
   String $agent_download_host,
   String $automation_user_password,
