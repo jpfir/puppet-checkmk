@@ -1,5 +1,16 @@
 # Changelog
 
+## Release 0.3.0
+
+**Refactor**
+
+- Move to using Puppet Providers instead of Functions.
+
+**Bugfixes**
+
+- Handle 404 errors and display a warning
+- Add validation on site_name as this is being used to create a unix user
+
 ## Release 0.2.1
 
 **Bugfixes**
