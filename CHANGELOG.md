@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.3.1
+
+**Bugfixes**
+
+- Use Puppets HTTP Client (causing certificate validation issues)
+
 ## Release 0.3.0
 
 **Refactor**
