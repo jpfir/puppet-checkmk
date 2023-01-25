@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.3.2
+
+**Bugfixes**
+
+- Remove Stdlib::HTTPSUrl validation due to "unresolved type" errors
+
 ## Release 0.3.1
 
 **Bugfixes**

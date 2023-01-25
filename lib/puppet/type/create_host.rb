@@ -30,7 +30,7 @@ Puppet::ResourceApi.register_type(
       behaviour: :namevar,
     },
     url: {
-      type: 'Variant[Stdlib::HTTPSUrl, Stdlib::HTTPUrl]',
+      type: 'Stdlib::HTTPUrl',
       desc: 'The URL for the CheckMK server.',
       behaviour: :parameter,
     },
