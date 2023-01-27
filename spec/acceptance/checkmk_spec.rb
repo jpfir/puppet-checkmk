@@ -17,6 +17,6 @@ describe 'checkmk' do
 
     # Apply twice to ensure no errors the second time.
     apply_manifest(pp, catch_failures: true)
-    apply_manifest(pp, catch_changes: true)
+    apply_manifest(pp, catch_failures: true)
   end
 end

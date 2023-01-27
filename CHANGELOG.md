@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.3.3
+
+**Bugfixes**
+
+- Remove puppetlabs/stdlib dependency which was causing type validation error in some environments
+
 ## Release 0.3.2
 
 **Bugfixes**

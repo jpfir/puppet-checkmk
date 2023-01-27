@@ -1,18 +1,13 @@
 {
   "name": "zaben-checkmk",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "author": "Zach Bensley",
   "summary": "Provision CheckMK server and client",
   "license": "MIT",
   "source": "https://github.com/zaben903/puppet-checkmk",
   "project_page": "https://github.com/zaben903/puppet-checkmk",
   "issues_url": "https://github.com/zaben903/puppet-checkmk/issues",
-  "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 7.0.0"
-    }
-  ],
+  "dependencies": [],
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
