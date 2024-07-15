@@ -16,6 +16,7 @@ Puppet::ResourceApi.register_type(
       }
 
     This type provides Puppet with the capabilities to download the agent package from the CheckMK server API.
+    The package can be a .deb file for Debian-based systems or a .rpm file for RedHat-based systems.
   EOS
   features: [],
   attributes: {

@@ -40,7 +40,7 @@ checkmk::automation_user_password: 'changeme456'
 
 ## Limitations
 
-Currently only tested and supported Debian based systems.
+Supported on both Debian and RedHat based systems.
 Only the Raw version of CheckMK has been tested but this module may work with the paid server versions.
 
 ## Development
@@ -54,5 +54,5 @@ Run the following commands to test the module in your local environment:
 ```bash
 bundle install
 bundle exec rake spec
-bundle exex rake beaker
+bundle exec rake beaker
 ```
